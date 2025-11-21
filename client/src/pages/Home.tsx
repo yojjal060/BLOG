@@ -27,7 +27,7 @@ export default function Home() {
             Welcome to My Blog
           </h1>
           <p className="text-lg md:text-xl text-gray-600 font-serif wrap-break-word">
-            Discover articles, tutorials, and insights about web development
+            Discover articles, tutorials, and insights about Anything
           </p>
         </section>
 
