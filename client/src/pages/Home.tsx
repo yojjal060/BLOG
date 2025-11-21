@@ -9,15 +9,7 @@ export default function Home() {
   const { posts, loading, error } = useBlog();
   const [showAdminMode, setShowAdminMode] = useState(false);
 
-  const {
-    searchTerm,
-    setSearchTerm,
-    selectedAuthor,
-    setSelectedAuthor,
-    authors,
-    filteredPosts,
-    isSearching,
-  } = useSearch({ posts });
+  const { searchTerm, setSearchTerm, filteredPosts } = useSearch(posts);
 
   const handleCardClick = (postId: number) => {
     const post = posts.find((p) => p.id === postId);
@@ -46,33 +38,17 @@ export default function Home() {
           </div>
         )}
 
-        {/* Search and Filter Section */}
+        {/* Search Section */}
         {posts.length > 0 && (
           <section className="mb-8">
-            <div className="flex flex-col md:flex-row gap-4 max-w-2xl mx-auto">
-              <div className="flex-1">
-                <input
-                  type="search"
-                  placeholder="Search articles..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                />
-              </div>
-              <div className="md:w-48">
-                <select
-                  value={selectedAuthor}
-                  onChange={(e) => setSelectedAuthor(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                >
-                  <option value="">All Authors</option>
-                  {authors.map((author) => (
-                    <option key={author} value={author}>
-                      {author}
-                    </option>
-                  ))}
-                </select>
-              </div>
+            <div className="max-w-2xl mx-auto">
+              <input
+                type="search"
+                placeholder="Search articles..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg"
+              />
             </div>
 
             {/* Admin Toggle */}
@@ -91,25 +67,21 @@ export default function Home() {
 
             {/* Search Results Info */}
             <div className="text-center mt-4 text-gray-600">
-              {isSearching ? (
-                <p>Searching...</p>
-              ) : filteredPosts.length !== posts.length ? (
+              {filteredPosts.length !== posts.length && (
                 <p>
                   Showing {filteredPosts.length} of {posts.length} articles
                   {searchTerm && ` for "${searchTerm}"`}
-                  {selectedAuthor && ` by ${selectedAuthor}`}
                 </p>
-              ) : null}
+              )}
             </div>
           </section>
         )}
 
         {/* Blog Posts Grid */}
         <section>
-          <h2 className="text-3xl font-bold mb-8 font-serif">
-            {searchTerm || selectedAuthor ? "Search Results" : "Latest Posts"}
-          </h2>
-
+          <h2 className="text-2xl font-bold mb-6">
+            {searchTerm ? "Search Results" : "Latest Posts"}
+          </h2>{" "}
           {loading ? (
             <div className="text-center py-12">
               <div className="animate-pulse">
@@ -141,13 +113,10 @@ export default function Home() {
                       Try adjusting your search terms or filters
                     </p>
                     <button
-                      onClick={() => {
-                        setSearchTerm("");
-                        setSelectedAuthor("");
-                      }}
-                      className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                      onClick={() => setSearchTerm("")}
+                      className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg"
                     >
-                      Clear Filters
+                      Clear Search
                     </button>
                   </>
                 )}

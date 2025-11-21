@@ -1,49 +1,28 @@
-/**
- * Converts a string to a URL-friendly slug
- * @param text - The text to convert to a slug
- * @returns URL-safe slug string
- */
+// Convert text to URL-friendly slug
 export function generateSlug(text: string): string {
   return text
     .toLowerCase()
     .trim()
-    .replace(/\s+/g, "-") // Replace spaces with hyphens
-    .replace(/[^\w\-]+/g, "") // Remove all non-word chars except hyphens
-    .replace(/\-\-+/g, "-") // Replace multiple hyphens with single hyphen
-    .replace(/^-+/, "") // Trim hyphens from start
-    .replace(/-+$/, ""); // Trim hyphens from end
+    .replace(/\s+/g, "-")
+    .replace(/[^\w\-]+/g, "")
+    .replace(/\-\-+/g, "-")
+    .replace(/^-+/, "")
+    .replace(/-+$/, "");
 }
 
-/**
- * Truncates text to a specified length with ellipsis
- * @param text - The text to truncate
- * @param length - Maximum length before truncation
- * @returns Truncated text with ellipsis if needed
- */
+// Truncate text with ellipsis
 export function truncateText(text: string, length: number): string {
   if (text.length <= length) return text;
   return text.substring(0, length).trim() + "...";
 }
 
-/**
- * Calculates estimated reading time for text
- * @param text - The text content
- * @param wordsPerMinute - Average reading speed (default: 200 wpm)
- * @returns Estimated reading time in minutes
- */
-export function calculateReadingTime(
-  text: string,
-  wordsPerMinute: number = 200
-): number {
+// Calculate reading time in minutes
+export function calculateReadingTime(text: string): number {
   const wordCount = text.trim().split(/\s+/).length;
-  return Math.max(1, Math.ceil(wordCount / wordsPerMinute));
+  return Math.max(1, Math.ceil(wordCount / 200));
 }
 
-/**
- * Formats a date to a human-readable string
- * @param date - Date to format
- * @returns Formatted date string
- */
+// Format date to readable string
 export function formatDate(date: Date): string {
   return new Intl.DateTimeFormat("en-US", {
     year: "numeric",

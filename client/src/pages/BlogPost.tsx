@@ -39,7 +39,9 @@ export default function BlogPost() {
   }
 
   const readingTime = calculateReadingTime(post.content);
-  const publishDate = formatDate(new Date(post.createdAt));
+  const publishDate = post.createdAt
+    ? formatDate(new Date(post.createdAt))
+    : formatDate(new Date());
 
   return (
     <article className="container mx-auto px-4 py-8">
@@ -237,7 +239,6 @@ export default function BlogPost() {
         onConfirm={handleDelete}
         title="Delete Blog Post"
         message={`Are you sure you want to delete "${post.title}"? This action cannot be undone.`}
-        confirmText="Delete"
       />
     </article>
   );

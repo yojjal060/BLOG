@@ -52,7 +52,7 @@ export default function BlogCard({
     <>
       <article
         onClick={handleCardClick}
-        className="group cursor-pointer bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-gray-200 transform hover:-translate-y-1"
+        className="cursor-pointer bg-white rounded-lg shadow border border-gray-200"
       >
         {/* Image Container */}
         <div className="relative overflow-hidden">
@@ -60,35 +60,20 @@ export default function BlogCard({
             <img
               src={post.image}
               alt={post.title}
-              className="h-48 w-full object-cover transition-transform duration-300 group-hover:scale-105"
+              className="h-48 w-full object-cover"
             />
           ) : (
-            <div className="h-48 w-full bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
-              <div className="text-center">
-                <svg
-                  className="w-12 h-12 text-gray-400 mx-auto mb-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                  />
-                </svg>
-                <p className="text-sm text-gray-500 font-medium">Article</p>
-              </div>
+            <div className="h-48 w-full bg-gray-100 flex items-center justify-center">
+              <span className="text-gray-400 text-sm">No Image</span>
             </div>
           )}
 
           {/* Action Buttons */}
           {showActions && (
-            <div className="absolute top-3 right-3 flex gap-2">
+            <div className="absolute top-2 right-2 flex gap-1">
               <button
                 onClick={handleEdit}
-                className="bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 transition-colors shadow-lg"
+                className="bg-blue-500 text-white p-1 rounded hover:bg-blue-600"
               >
                 <svg
                   className="w-4 h-4"
@@ -106,7 +91,7 @@ export default function BlogCard({
               </button>
               <button
                 onClick={handleDelete}
-                className="bg-red-600 text-white p-2 rounded-full hover:bg-red-700 transition-colors shadow-lg"
+                className="bg-red-500 text-white p-1 rounded hover:bg-red-600"
               >
                 <svg
                   className="w-4 h-4"
@@ -126,10 +111,9 @@ export default function BlogCard({
           )}
 
           {/* Reading time badge */}
-          <div className="absolute top-3 left-3">
-            <span className="bg-black/70 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm">
-              {Math.max(1, Math.ceil(post.content.split(" ").length / 200))} min
-              read
+          <div className="absolute top-2 left-2">
+            <span className="bg-gray-800 text-white text-xs px-2 py-1 rounded">
+              {Math.ceil(post.content.split(" ").length / 200) || 1} min
             </span>
           </div>
         </div>
@@ -137,22 +121,20 @@ export default function BlogCard({
         {/* Content */}
         <div className="p-6">
           {/* Title */}
-          <h2 className="text-xl font-bold text-gray-900 mb-3 leading-tight group-hover:text-blue-600 transition-colors break-words hyphens-auto">
+          <h2 className="text-lg font-bold text-gray-900 mb-2 hover:text-blue-600">
             {post.title}
           </h2>
 
           {/* Content Preview */}
-          <p className="text-gray-600 text-sm leading-relaxed mb-4 wrap-break-word overflow-hidden">
-            {truncatedContent}
-          </p>
+          <p className="text-gray-600 text-sm mb-4">{truncatedContent}</p>
 
           {/* Footer */}
           <div className="flex items-center justify-between pt-4 border-t border-gray-100">
             {/* Author */}
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-linear-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                <span className="text-white text-sm font-semibold">
-                  {post.author.charAt(0).toUpperCase()}
+              <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                <span className="text-white text-sm">
+                  {post.author[0].toUpperCase()}
                 </span>
               </div>
               <p className="text-sm font-medium text-gray-900">{post.author}</p>
@@ -160,22 +142,9 @@ export default function BlogCard({
           </div>
 
           {/* Read More Link */}
-          <div className="mt-4">
-            <span className="inline-flex items-center text-sm font-medium text-blue-600 group-hover:text-blue-700">
-              Read article
-              <svg
-                className="ml-1 w-4 h-4 transition-transform group-hover:translate-x-1"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
+          <div className="mt-3">
+            <span className="text-sm text-blue-600 hover:text-blue-700">
+              Read more →
             </span>
           </div>
         </div>
@@ -186,10 +155,8 @@ export default function BlogCard({
         isOpen={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}
         onConfirm={confirmDelete}
-        title="Delete Blog Post"
-        message={`Are you sure you want to delete "${post.title}"? This action cannot be undone.`}
-        confirmText="Delete"
-        
+        title="Delete Post"
+        message={`Delete "${post.title}"? This can't be undone.`}
       />
     </>
   );

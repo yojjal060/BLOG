@@ -209,7 +209,7 @@ export default function EditBlog() {
                 value={formData.content}
                 onChange={handleInputChange}
                 placeholder="Write your blog content here..."
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-vertical"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg resize-vertical"
                 required
               />
               <p className="text-sm text-gray-500 mt-1">
