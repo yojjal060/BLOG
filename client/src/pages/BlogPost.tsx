@@ -12,29 +12,6 @@ export default function BlogPost() {
 
   const post = slug ? getPostBySlug(slug) : null;
 
-  const handleDelete = () => {
-    if (post) {
-      deletePost(post.id);
-      navigate("/");
-    }
-  };
-
-  const copyLink = () => {
-    navigator.clipboard.writeText(window.location.href);
-    alert("Link copied!");
-  };
-
-  const sharePost = () => {
-    if (navigator.share) {
-      navigator.share({
-        title: post.title,
-        url: window.location.href,
-      });
-    } else {
-      copyLink();
-    }
-  };
-
   if (!post) {
     return (
       <div className="container mx-auto px-4 py-8 text-center">
@@ -47,13 +24,37 @@ export default function BlogPost() {
     );
   }
 
+  const handleDelete = () => {
+    deletePost(post.id);
+    navigate("/");
+  };
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(window.location.href);
+    alert("Link copied!");
+  };
+
+  const sharePost = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: post.title,
+        url: window.location.href,
+      });
+    } else {
+      copyToClipboard();
+    }
+  };
+
   const readingTime = calculateReadingTime(post.content);
-  const publishDate = post.createdAt ? formatDate(new Date(post.createdAt)) : formatDate(new Date());
+  const publishDate = formatDate(new Date(post.createdAt || Date.now()));
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto">
-        <button onClick={() => navigate(-1)} className="text-blue-600 mb-8">
+        <button 
+          onClick={() => navigate(-1)} 
+          className="text-blue-600 mb-8"
+        >
           ← Back
         </button>
 
@@ -98,27 +99,27 @@ export default function BlogPost() {
           <span className="text-sm">{readingTime} min read</span>
         </div>
 
-        <div className="prose prose-lg max-w-none mb-12">
-          <div className="whitespace-pre-wrap wrap-break-word">
+        <div className="mb-12">
+          <div className="text-lg leading-relaxed whitespace-pre-wrap">
             {post.content}
           </div>
         </div>
 
-        <div className="border-t pt-8">
+        <div className="border-t pt-6">
           <div className="flex justify-between items-center">
             <div>
-              <h3 className="text-lg font-semibold mb-2">Share this post</h3>
+              <h3 className="font-semibold mb-2">Share this post</h3>
               <div className="flex gap-4">
                 <button onClick={sharePost} className="text-blue-600">
                   Share
                 </button>
-                <button onClick={copyLink} className="text-blue-600">
+                <button onClick={copyToClipboard} className="text-blue-600">
                   Copy Link
                 </button>
               </div>
             </div>
-            <Link to="/" className="bg-blue-600 text-white px-6 py-2 rounded">
-              Read More
+            <Link to="/" className="bg-blue-600 text-white px-4 py-2 rounded">
+              More Posts
             </Link>
           </div>
         </div>
